@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣诞礼物交换 - 信息登记表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .header-hint {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 表单样式 */
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: #f8f9ff;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 成功界面 */
+        .success-container {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .success-container.show {
+            display: block;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .success-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .code-display {
+            background: #f8f9ff;
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .code-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .code-value {
+            font-size: 28px;
+            font-weight: 900;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn.copied {
+            background: #4caf50;
+        }
+
+        .next-step {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .next-step-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .next-step-text {
+            font-size: 14px;
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .action-btn.secondary:hover {
+            background: #f8f9ff;
+        }
+
+        @media (max-width: 600px) {
+            .form-container,
+            .success-container {
+                padding: 25px 20px;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .code-value {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">🎄 圣诞礼物交换</div>
+            <div class="header-subtitle">匿名信息登记表</div>
+            <div class="header-hint">填写信息，获取专属代码</div>
+        </div>
+
+        <!-- 表单界面 -->
+        <div class="form-container" id="formContainer">
+            <div class="form-title">请填写您的信息</div>
+
+            <form id="addressForm" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label class="form-label">游戏 ID</label>
+                    <input
+                        type="text"
+                        id="gameId"
+                        class="form-input"
+                        placeholder="输入你的游戏 ID"
+                        required
+                    >
+                    <div class="form-hint">用于内部匹配，不会公开显示</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">收货地址</label>
+                    <textarea
+                        id="address"
+                        class="form-input"
+                        placeholder="请填写详细的收货地址&#10;例如：浙江省杭州市西湖区..."
+                        required
+                    ></textarea>
+                    <div class="form-hint">请填写详细地址，他人通过你的代码可以看到这个地址</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">一段话（给抽到你礼物的人）</label>
+                    <textarea
+                        id="message"
+                        class="form-input"
+                        placeholder="输入你想说的一段话&#10;例如：希望你喜欢这份礼物！"
+                        required
+                    ></textarea>
+                    <div class="form-hint">这段话会出现在别人刮开盲盒时看到</div>
+                </div>
+
+                <button type="submit" class="submit-btn">生成代码</button>
+            </form>
+        </div>
+
+        <!-- 成功界面 -->
+        <div class="success-container" id="successContainer">
+            <div class="success-icon">✨</div>
+            <div class="success-title">成功注册！</div>
+            <div class="success-text">
+                你的信息已保存，请妥善保管下面的代码
+            </div>
+
+            <div class="code-display">
+                <div class="code-label">你的专属代码</div>
+                <div class="code-value" id="generatedCode"></div>
+                <button type="button" class="copy-btn" id="copyBtn" onclick="copyCode()">复制代码</button>
+            </div>
+
+            <div class="next-step">
+                <div class="next-step-title">接下来：</div>
+                <div class="next-step-text">
+                    将这串代码输入到圣诞盲盒计划的登录界面，即可进行抽奖！
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="action-btn secondary" onclick="resetForm()">填写另一份</button>
+                <button type="button" class="action-btn" onclick="goToLottery()">前往抽奖</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'addressFormData';
+
+        function generateCode() {
+            // 生成格式：XMAS-[时间戳]-[随机码]
+            const timestamp = Date.now().toString(36).substring(2, 8).toUpperCase();
+            const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+            return `XMAS-${timestamp}-${random}`;
+        }
+
+        function submitForm(e) {
+            e.preventDefault();
+
+            const gameId = document.getElementById('gameId').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            // 验证输入
+            if (!gameId || !address || !message) {
+                alert('请填写所有必填项');
+                return;
+            }
+
+            // 生成唯一代码
+            const code = generateCode();
+
+            // 获取现有数据
+            let allData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+            // 创建新条目
+            const newEntry = {
+                code: code,
+                gameId: gameId,
+                address: address,
+                message: message,
+                timestamp: new Date().toISOString()
+            };
+
+            // 保存数据
+            allData.push(newEntry);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+
+            // 显示成功界面
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('successContainer').classList.add('show');
+            document.getElementById('generatedCode').textContent = code;
+        }
+
+        function copyCode() {
+            const code = document.getElementById('generatedCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✓ 已复制';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('addressForm').reset();
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('successContainer').classList.remove('show');
+            document.getElementById('gameId').focus();
+        }
+
+        function goToLottery() {
+            // 跳转到抽奖程序
+            window.location.href = '../刮刮乐/index.html';
+        }
+
+        // 页面加载时聚焦输入框
+        window.addEventListener('load', () => {
+            document.getElementById('gameId').focus();
+        });
+    </script>
+</body>
+</html>
